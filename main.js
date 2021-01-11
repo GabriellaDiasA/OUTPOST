@@ -7,8 +7,8 @@ import { Player } from './modules/Player.js';
 function startGame(){
     DOMAssets.CreateResourceMenu();
     DOMAssets.UpdateResourceMenu();
-    DOMAssets.insertButton(Buildings.IronMine, Buildings.IronMine.interact.bind(Buildings.IronMine));
-    DOMAssets.insertButton(Buildings.CopperMine, Buildings.CopperMine.interact.bind(Buildings.CopperMine));
+    DOMAssets.insertButton(Buildings.IronMine, Player.purchaseBuilding.bind(Buildings.IronMine));
+    DOMAssets.insertButton(Buildings.CopperMine, Player.purchaseBuilding.bind(Buildings.CopperMine));
 }
 
 startGame();

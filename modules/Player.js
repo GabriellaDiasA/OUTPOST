@@ -1,17 +1,41 @@
 import * as Buildings from './Buildings.js';
-import { timeInterval } from './constants.js'
+import { timeInterval } from './constants.js';
+import { Building } from './Classes.js';
 
 export let Player = {
-    ironMine: Buildings.IronMine.stk,
-    iron: 0,
-    copperMine: Buildings.CopperMine.stk,
-    copper: 0,
+    ironOre: [1500, "Iron ore"],
+    copperOre: [0, "Copper ore"],
+    titaniumOre: [0, "Titanium ore"],
+
+    checkCost: function(object){
+        let count = 0;
+        for(let i in object.cost){
+            if (Player[i][0] >= object.cost[i][0]){
+                count++;
+            }
+        }
+        if(count == Object.keys(object.cost).length){
+            return true;
+        }
+        else{
+            return false;
+        }
+    },
+
+    purchaseBuilding: function(){
+        if(Player.checkCost(this) == true){
+            for(let i in this.cost){
+                Player[i][0] -= this.cost[i][0];
+            }
+            this.interact();
+        }
+    },
 
     updateIron: setInterval(() => {
-        Player.iron += Buildings.IronMine.stk * Buildings.IronMine.rate * (timeInterval / 1000);
+        Player.ironOre[0] += Buildings.IronMine.stk * Buildings.IronMine.prodRate * (timeInterval / 1000);
     }, timeInterval),
+    
     updateCopper: setInterval(() => {
-        Player.copper += Buildings.CopperMine.stk * Buildings.CopperMine.rate * (timeInterval / 1000);
+        Player.copperOre[0] += Buildings.CopperMine.stk * Buildings.CopperMine.prodRate * (timeInterval / 1000);
     }, timeInterval),
-
 }

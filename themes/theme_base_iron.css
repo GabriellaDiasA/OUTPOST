@@ -133,9 +133,27 @@ p{
     align-items: center;
     background-color: rgba(255, 0, 0, 0.2);
     border-radius: 10px;
-    border: 3px solid rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(0, 0, 0, 0.5);
     font-size: 30px;
     text-align: center;
+}
+
+.item:hover{
+    transition-duration: 70ms;
+    border-color: rgba(255,255,255,0.8);
+}
+
+#infoDiv{
+    padding: 10px;
+    display: inline;
+    z-index: 2;
+    position: absolute;
+    min-height: 100px;
+    min-width: 100px;
+    height: auto;
+    width: auto;
+    background-color: #201818;
+    border: 1px solid #242222;
 }
 
 /* Webkit stuff */

@@ -193,3 +193,36 @@ quartzProcessingMethod, quartzProcessingUnlock, quartzProcessingFlavorText, quar
 
 export let upgradeArray = [reinforcedDrills, intelligentTracking, droneRecyclingI, betterSmelting,
     copperSmelting, silos, advancedDroneCircuitry, intelligentPathfinding, oscillators, quartzProcessing];
+
+/**
+ * LOCAL STORAGE
+ */
+
+export function loadUpgradeArray(){
+    if(!localStorage.getItem(`${upgradeArray[0].name}`)){
+        setInterval(setUpgrades, 500);
+    }
+    else{
+        getUpgrades();
+        setInterval(setUpgrades, 500);
+    }
+}
+
+function setUpgrades(){
+    for(let building in upgradeArray){
+        let tempObj = {};
+        for(let property in upgradeArray[building]){
+            if(typeof tempObj[property] != typeof console.log) tempObj[property] = upgradeArray[building][property];
+        }
+        localStorage.setItem(`${upgradeArray[building].name}`, JSON.stringify(tempObj));
+    }
+}
+
+function getUpgrades(){
+    for(let building in upgradeArray){
+        let tempObj = JSON.parse(localStorage.getItem(`${upgradeArray[building].name}`));
+        for(let property in tempObj){
+            upgradeArray[building][property] = tempObj[property];
+        }
+    }
+}

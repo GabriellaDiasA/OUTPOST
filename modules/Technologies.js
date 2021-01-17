@@ -258,3 +258,36 @@ export let researchArray = [ScavengerDroneTech, Digging, MiningDroneMkITech, Sme
 
 // let template = new Research('', templateCost, false, false,
 // templateMethod, templateUnlock, templateFlavorText, templateEffectsText);
+
+/**
+ * LOCAL STORAGE
+ */
+
+export function loadTechArray(){
+    if(!localStorage.getItem(`${researchArray[0].name}`)){
+        setInterval(setTechs, 500);
+    }
+    else{
+        getTechs();
+        setInterval(setTechs, 500);
+    }
+}
+
+function setTechs(){
+    for(let building in researchArray){
+        let tempObj = {};
+        for(let property in researchArray[building]){
+            if(typeof tempObj[property] != typeof console.log) tempObj[property] = researchArray[building][property];
+        }
+        localStorage.setItem(`${researchArray[building].name}`, JSON.stringify(tempObj));
+    }
+}
+
+function getTechs(){
+    for(let building in researchArray){
+        let tempObj = JSON.parse(localStorage.getItem(`${researchArray[building].name}`));
+        for(let property in tempObj){
+            researchArray[building][property] = tempObj[property];
+        }
+    }
+}

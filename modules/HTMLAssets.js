@@ -49,7 +49,7 @@ function infoDivIn(object, parent){
         for(let i in object.prodRate){
             let p = document.createElement('p');
             p.setAttribute("id", "infoText");
-            p.textContent = `${object.prodRate[i].label}: ${object.prodRate[i].amount.toFixed(2)}/s`;
+            p.textContent = `${object.prodRate[i].label}: ${(object.prodRate[i].amount * object.bonusProd).toFixed(2)}/s`;
             if(object.prodRate[i].amount != 0) infoDiv.append(p);
         }
     }
@@ -236,9 +236,9 @@ export function createResourceMenu(){
         if(typeof Player[resource] == typeof Player){
             let div = document.createElement('div');
             let p = document.createElement('p');
-            p.setAttribute("id", Player[resource].label);
+            p.setAttribute("id", `${Player[resource].label}Resource`);
             p.setAttribute("class", "Resource");
-            if(Player[resource].display == true && !document.querySelectorAll(`#${Player[resource].label}.Resource`)[0]){
+            if(Player[resource].display == true && !document.getElementById(`${Player[resource].label}Resource`)){
                 div.addEventListener('mouseenter', () => resourceInfoDiv(resource, div));
                 div.addEventListener('mouseleave', infoDivOut);
                 div.append(p);
@@ -289,8 +289,7 @@ function convertNotation(number){
 function updateResources(){
     for(let i in Player){
         if(typeof Player[i] == typeof Player && Player[i].display){
-            let p = document.querySelectorAll(`#${Player[i].label}.Resource`);
-            p = p[0];
+            let p = document.getElementById(`${Player[i].label}Resource`);
             if (p != null){
                 let displayAmount = Player[i].amount;
                 let displayLimit = Player[i].limit;
@@ -315,6 +314,7 @@ function warnColorText(amount, limit){
     if(amount == limit) return "rgb(255,75,75)";
     else if(amount >= 0.75 * limit) return "orange";
     else if (amount >= 0.5 * limit) return "yellow";
+    else return "white";
 }
 
 export function updateResourceMenu(){
@@ -354,10 +354,6 @@ export function createGameMenu(){
             insertMenuItem(DOM.menuArray[count].label, DOM.menuArray[count].method);
         }
     }
-}
-
-export function updateGameMenu(){
-    setInterval(createGameMenu, timeInterval);
 }
 
 /**
@@ -402,11 +398,10 @@ function createStorageMenu(){
             insertButton(building, PlayerMethod.purchaseBuilding.bind(building));
         }
     }
+    disableOrEnableButtons(Buildings.storageArray);
 }
 
 function updateStorageConditions(){
-    disableOrEnableButtons(Buildings.storageArray);
-
     for(let count = 0; count < Buildings.storageArray.length; count++){
         let building = Buildings.storageArray[count];
         if(building.unlocked == true){
@@ -445,6 +440,7 @@ function updateUpgradesConditions(){
 }
 
 export function updateMenus(){
+    setInterval(createGameMenu, timeInterval);
     setInterval(createOutpostMenu, timeInterval);
     setInterval(createResearchMenu, timeInterval);
     setInterval(createStorageMenu, timeInterval);

@@ -108,3 +108,65 @@ export let Scavenge = {
         if(Player.scrap.amount < Player.scrap.limit) Player.scrap.amount++;
     }
 }
+
+/**
+ * LOCAL STORAGE
+ */
+
+export function loadBuildingArray(){
+    if(!localStorage.getItem(`${buildingArray[0].name}`)){
+        setInterval(setBuildings, 500);
+    }
+    else{
+        getBuildings();
+        setInterval(setBuildings, 500);
+    }
+}
+
+function setBuildings(){
+    for(let building in buildingArray){
+        let tempObj = {};
+        for(let property in buildingArray[building]){
+            tempObj[property] = buildingArray[building][property];
+        }
+        localStorage.setItem(`${buildingArray[building].name}`, JSON.stringify(tempObj));
+    }
+}
+
+function getBuildings(){
+    for(let building in buildingArray){
+        let tempObj = JSON.parse(localStorage.getItem(`${buildingArray[building].name}`));
+        for(let property in buildingArray[building]){
+            buildingArray[building][property] = tempObj[property];
+        }
+    }
+}
+
+export function loadStorageArray(){
+    if(!localStorage.getItem(`${storageArray[0].name}`)){
+        setInterval(setStorage, 500);
+    }
+    else{
+        getStorage();
+        setInterval(setStorage, 500);
+    }
+}
+
+function setStorage(){
+    for(let building in storageArray){
+        let tempObj = {};
+        for(let property in storageArray[building]){
+            tempObj[property] = storageArray[building][property];
+        }
+        localStorage.setItem(`${storageArray[building].name}`, JSON.stringify(tempObj));
+    }
+}
+
+function getStorage(){
+    for(let building in storageArray){
+        let tempObj = JSON.parse(localStorage.getItem(`${storageArray[building].name}`));
+        for(let property in storageArray[building]){
+            storageArray[building][property] = tempObj[property];
+        }
+    }
+}

@@ -24,3 +24,24 @@ let upgradesMenu = {
 }
 
 export let menuArray = {outpost: outpostMenu, research: researchMenu, storage: storageMenu, upgrades: upgradesMenu};
+
+/**
+ * LOCAL STORAGE
+ */
+
+export function loadMenuArray(){
+    if(!localStorage.getItem('menuArray')){
+        setInterval(setMenuArray, 500);
+    }else{
+        getMenuArray();
+        setInterval(setMenuArray, 500);
+    }
+}
+
+function getMenuArray(){
+    menuArray = JSON.parse(localStorage.getItem('menuArray'));
+}
+
+function setMenuArray(){
+    localStorage.setItem('menuArray', JSON.stringify(menuArray));
+}

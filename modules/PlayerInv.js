@@ -17,3 +17,20 @@ export let Player = {
 //     quartz: {amount: 500000, label: "Quartz", display: false, limit: 500000},
 //     silicon: {amount: 500000, label: "Silicon", display: false, limit: 500000},
 // }
+
+export function loadPlayer(){
+    if(!localStorage.getItem('basicResources')){
+        setInterval(setPlayer, 500);
+    }else{
+        getPlayer();
+        setInterval(setPlayer, 500);
+    }
+}
+
+function getPlayer(){
+    Player = JSON.parse(localStorage.getItem('basicResources'));
+}
+
+function setPlayer(){
+    localStorage.setItem('basicResources', JSON.stringify(Player));
+}
